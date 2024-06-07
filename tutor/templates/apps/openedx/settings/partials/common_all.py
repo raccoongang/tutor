@@ -171,11 +171,16 @@ SILENCED_SYSTEM_CHECKS = ["2_0.W001", "fields.W903"]
 
 # Email
 EMAIL_USE_SSL = {{ SMTP_USE_SSL }}
-# Forward all emails from edX's Automated Communication Engine (ACE) to django.
-ACE_ENABLED_CHANNELS = ["django_email"]
-ACE_CHANNEL_DEFAULT_EMAIL = "django_email"
-ACE_CHANNEL_TRANSACTIONAL_EMAIL = "django_email"
-EMAIL_FILE_PATH = "/tmp/openedx/emails"
+
+# Forward all emails and push notifications from edX's Automated Communication Engine (ACE) to django.
+ACE_ENABLED_POLICIES = ENV_TOKENS.get("ACE_ENABLED_POLICIES", ["bulk_email_optout"])
+ACE_ENABLED_CHANNELS = ENV_TOKENS.get("ACE_ENABLED_CHANNELS", ["django_email"])
+ACE_CHANNEL_DEFAULT_EMAIL = ENV_TOKENS.get("ACE_CHANNEL_DEFAULT_EMAIL", "django_email")
+ACE_CHANNEL_TRANSACTIONAL_EMAIL = ENV_TOKENS.get("ACE_CHANNEL_TRANSACTIONAL_EMAIL", "django_email")
+EMAIL_FILE_PATH = ENV_TOKENS.get("EMAIL_FILE_PATH", "/tmp/openedx/emails")
+FCM_APP_NAME = ENV_TOKENS.get("FCM_APP_NAME", "")
+FIREBASE_CREDENTIALS = ENV_TOKENS.get("FIREBASE_CREDENTIALS", {})
+FIREBASE_CREDENTIALS_PATH = ENV_TOKENS.get("FIREBASE_CREDENTIALS_PATH", "")
 
 # Language/locales
 LANGUAGE_COOKIE_NAME = "openedx-language-preference"
